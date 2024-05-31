@@ -23,3 +23,27 @@ create table course (
     foreign key (major_id) references major(mid),
     primary key (cid)
 );
+
+create table award (
+	aid char(8),
+    aname varchar(100) check (aname is not null),
+    primary key (aid)
+);
+
+create table sc (
+	student_id char(8),
+    course_id  char(8),
+    score int check (score >= 0 and score <= 100) default 0,
+    foreign key (student_id) references student(sid),
+    foreign key (course_id)  references course(cid),
+    primary key (student_id, course_id)
+);
+
+create table sa (
+	student_id char(8),
+    award_id char(8),
+    award_time date,
+    foreign key (student_id) references student(sid),
+    foreign key (award_id)   references award(aid),
+    primary key (student_id, award_id)
+);
