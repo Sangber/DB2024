@@ -1,7 +1,7 @@
-use lab02;
+USE lab02;
 
-insert into major (mid, mname)
-values
+INSERT INTO major (mid, mname)
+VALUES
 ('M001', '计算机科学与技术'),
 ('M002', '数学'),
 ('M003', '物理学'),
@@ -9,8 +9,8 @@ values
 ('M005', '化学与材料科学'),
 ('M006', '地球与空间科学');
 
-insert into student (sid, sname, gender, birth_date, major_id)
-values
+INSERT INTO student (sid, sname, gender, birth_date, major_id)
+VALUES
 ('S001', '张明', '男', '2005-03-15', 'M001'),
 ('S002', '孙芳芳', '女', '2005-08-14', 'M001'),
 ('S003', '邓洁', '女', '2005-11-17', 'M001'),
@@ -42,8 +42,8 @@ values
 ('S029', '沈杰', '男', '2005-05-31', 'M006'),
 ('S030', '秦刚', '男', '2005-07-04', 'M006');
 
-insert into course (cid, cname, major_id)
-values
+INSERT INTO course (cid, cname, major_id)
+VALUES
 ('C001', '计算机程序设计', 'M001'),
 ('C002', '高等数学', 'M002'),
 ('C003', '经典力学', 'M003'),
@@ -60,8 +60,8 @@ values
 ('C014', '市场营销', 'M004'),
 ('C015', '物理化学', 'M005');
 
-insert into award(aid, aname)
-values
+INSERT INTO award(aid, aname)
+VALUES
 ('A001', '优秀学生一等奖学金'),
 ('A002', '三好学生'),
 ('A003', '优秀毕业生'),
