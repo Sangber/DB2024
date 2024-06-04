@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生列表</title>
+</head>
+<body>
+
+<table border="1px" width="100%" style="border-collapse: collapse;">
+    {% comment %} <a href="../sims/add">添加学生</a> {% endcomment %}
+    <tr>
+        <th>姓名</th>
+        <th>学号</th>
+        <th>性别</th>
+        <th>出生日期</th>
+        <th>专业</th>
+    </tr>
+    {% for student in students %}
+        <tr>
+            <td align="center">{{ student.sid }} </td>
+            <td align="center">{{ student.sname }} </td>
+            <td align="center">{{ student.gender }} </td>
+            <td align="center">{{ student.birth_date }} </td>
+            <td align="center">{{ student.mname }} </td>
+            {% comment %} <td align="center">
+                <a href="../sims/edit/?id={{ student.id }}">
+                    编辑
+                </a>
+                <a href="../sims/delete/?id={{ student.id }}">
+                    删除
+                </a>
+            </td> {% endcomment %}
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
