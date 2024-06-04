@@ -29,3 +29,22 @@ def student_index(request):
                                                   'gender': gender,
                                                   'birth_date': birth_date,
                                                   'mname': mname})
+
+def major_index(request):
+    mid         = request.GET.get('mid', '')
+    mname       = request.GET.get('mname', '')
+
+    sql =  "SELECT mid, mname FROM major WHERE 1=1 "
+    if mid.strip() != '':
+        sql = sql + " and mid = '" + mid + "'"
+    if mname.strip() != '':
+        sql = sql + " and mname = '" + mname + "'"
+
+    print(sql)
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute(sql)
+        majors = cursor.fetchall()
+    return render(request, 'major/index.html', {'majors': majors,
+                                                'mid': mid,
+                                                'mname': mname})
