@@ -1,3 +1,6 @@
-from django.shortcuts import render
+import MySQLdb
+from django.shortcuts import render, redirect
 
 # Create your views here.
+def index(request):
+    
