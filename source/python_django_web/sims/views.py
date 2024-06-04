@@ -3,15 +3,16 @@ from django.shortcuts import render
 
 # Create your views here.
 def index(request):
+    return render(request, 'index.html')
+
+def student_index(request):
     sid         = request.GET.get('sid', '')
     sname       = request.GET.get('sname', '')
     gender      = request.GET.get('gender', '')
     birth_date  = request.GET.get('birth_date', '')
     mname       = request.GET.get('mname', '')
 
-    sql =  "SELECT sid, sname, gender, birth_date, major.mname \
-            FROM student, major \
-            WHERE student.major_id = major.mid "
+    sql =  "SELECT sid, sname, gender, birth_date, major.mname FROM student, major WHERE student.major_id = major.mid "
     if sid.strip() != '':
         sql = sql + " and sid = '" + sid + "'"
     if sname.strip() != '':
