@@ -7,3 +7,7 @@ class student(models.Model):
     gender      = models.CharField(max_length = 32)
     birth_date  = models.CharField(max_length = 32)
     major_id    = models.CharField(max_length = 32)
+
+class major(models.Model):
+    mid     = models.CharField(max_length = 32, unique = True)
+    mname   = models.CharField(max_length = 32)
