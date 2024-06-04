@@ -22,9 +22,9 @@ def index(request):
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         students = cursor.fetchall()
-    return render(request, 'student/index.html', {'学生': students,
-                                                  '学号': sid,
-                                                  '姓名': sname,
-                                                  '性别': gender,
-                                                  '出生日期': birth_date,
-                                                  '专业': mname})
+    return render(request, 'student/index.html', {'students': students,
+                                                  'sid': sid,
+                                                  'sname': sname,
+                                                  'gender': gender,
+                                                  'birth_date': birth_date,
+                                                  'mname': mname})
