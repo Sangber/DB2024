@@ -18,7 +18,7 @@ def index(request):
         sql = sql + " and sname = '" + sname + "'"
 
     print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="db2024", charset='utf8')
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         students = cursor.fetchall()
