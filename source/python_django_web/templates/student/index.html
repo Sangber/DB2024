@@ -7,7 +7,6 @@
 <body>
 
 <table border="1px" width="100%" style="border-collapse: collapse;">
-    {% comment %} <a href="../sims/add">添加学生</a> {% endcomment %}
     <tr>
         <th>学号</th>
         <th>姓名</th>
@@ -22,14 +21,6 @@
             <td align="center">{{ student.gender }} </td>
             <td align="center">{{ student.birth_date }} </td>
             <td align="center">{{ student.mname }} </td>
-            {% comment %} <td align="center">
-                <a href="../sims/edit/?id={{ student.id }}">
-                    编辑
-                </a>
-                <a href="../sims/delete/?id={{ student.id }}">
-                    删除
-                </a>
-            </td> {% endcomment %}
         </tr>
     {% endfor %}
 </table>
