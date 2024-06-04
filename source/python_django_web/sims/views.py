@@ -9,7 +9,7 @@ def index(request):
     birth_date  = request.GET.get('birth_date', '')
     mname       = request.GET.get('mname', '')
 
-    sql =  "SELECT sid, sname, gender, birth_date, mname \
+    sql =  "SELECT sid, sname, gender, birth_date, major.mname \
             FROM student, major \
             WHERE student.major_id = major.mid "
     if sid.strip() != '':
