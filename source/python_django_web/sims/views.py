@@ -43,7 +43,7 @@ def course_index(request):
     cid         = request.GET.get('cid', '')
     cname       = request.GET.get('cname', '')
 
-    sql =  "SELECT mid, mname FROM major WHERE 1=1 "
+    sql =  "SELECT cid, cname, major.mname FROM course, major WHERE course.major_id = major.mid "
     if cid.strip() != '':
         sql = sql + " and cid = '" + cid + "'"
     if cname.strip() != '':

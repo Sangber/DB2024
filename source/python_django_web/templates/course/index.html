@@ -10,11 +10,13 @@
     <tr>
         <th>课程代码</th>
         <th>课程名称</th>
+        <th>所属专业</th>
     </tr>
     {% for course in courses %}
         <tr>
             <td align="center">{{ course.cid }} </td>
             <td align="center">{{ course.cname }} </td>
+            <td align="center">{{ course.mname }} </td>
         </tr>
     {% endfor %}
 </table>
