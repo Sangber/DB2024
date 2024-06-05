@@ -35,7 +35,13 @@
         </tr>
         <tr>
             <th>专业</th>
-            <td><input name="major_id"/></td>
+            <td>
+                <select name="major_id">
+                    {% for option in options %}
+                        <option value="{{ option.mid }}">{{ option.mname }}</option>
+                    {% endfor %}
+                </select>
+            </td>
         </tr>
         <tr>
             <td colspan="2">

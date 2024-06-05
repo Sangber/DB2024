@@ -59,7 +59,11 @@ def student_index(request):
 
 def student_add(request):
     if request.method == 'GET':
-        return render(request, 'student/add.html')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT * FROM major")
+            options = cursor.fetchall()
+        return render(request, 'student/add.html', {'options': options})
     else:
         sid         = request.POST.get('sid', '')
         sname       = request.POST.get('sname', '')
