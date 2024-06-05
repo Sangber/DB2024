@@ -38,7 +38,7 @@ def major_edit(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE major set mname=%s where mid =%s", [mname, mid])
             conn.commit()
-        return redirect('../major')
+        return redirect('../major/')
 
 def student_index(request):
     sid         = request.GET.get('sid', '')
@@ -74,7 +74,7 @@ def student_add(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("call student_add(%s, %s, %s, %s, %s)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
-        return redirect('../student')
+        return redirect('../')
 
 def student_edit(request):
     if request.method == 'GET':
@@ -97,7 +97,7 @@ def student_edit(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("call student_edit(%s, %s, %s, %s, %s)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
-        return redirect('../student')
+        return redirect('../')
 
 def student_delete(request):
     sid = request.GET.get('sid', '')
@@ -105,7 +105,7 @@ def student_delete(request):
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute("call student_delete(%s)", [sid])
         conn.commit()
-    return redirect('../student')
+    return redirect('../')
 
 def course_index(request):
     cid         = request.GET.get('cid', '')
@@ -173,7 +173,7 @@ def sa_add(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("INSERT INTO sa (student_id, award_id, award_time) VALUES(%s, %s, %s)", [student_id, award_id, award_time])
             conn.commit()
-        return redirect('../sa')
+        return redirect('../')
 
 def sa_delete(request):
     sid = request.GET.get('sid', '')
@@ -182,4 +182,4 @@ def sa_delete(request):
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute("DELETE FROM sa WHERE student_id=%s and award_id=%s", [sid, aid])
         conn.commit()
-    return redirect('../sa')
+    return redirect('../')

@@ -6,12 +6,12 @@
 </head>
 <body>
 <a href="../">返回</a>
-<form action="../sa" style="margin: 10px 0">
+<form action="../sa/" style="margin: 10px 0">
     <input name="sname" placeholder="请输入姓名" value="{{ sname }}" style="margin-right: 10px"/>
     <input name="aname" placeholder="请输入奖惩内容" value="{{ aname }}" style="margin-right: 10px"/>
     <button type="submit">查询</button>
 </form>
-<a href="../sa/add">新增奖惩信息</a>
+<a href="../sa/add/">新增奖惩信息</a>
 <table border="1px" width="100%" style="border-collapse: collapse;">
     <tr>
         <th>学号</th>
@@ -27,7 +27,7 @@
             <td align="center">{{ sa.aid }} </td>
             <td align="center">{{ sa.aname }} </td>
             <td align="center">
-                <a href="../sa/delete?sid={{ sa.sid }}&aid={{ sa.aid }}" onclick="return confirmDelete()">删除</a>
+                <a href="../sa/delete/?sid={{ sa.sid }}&aid={{ sa.aid }}" onclick="return confirmDelete()">删除</a>
             </td>
         </tr>
     {% endfor %}
