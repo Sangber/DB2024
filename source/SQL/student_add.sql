@@ -7,9 +7,9 @@ CREATE PROCEDURE student_add(
     in birth_date DATE,
     in major_id CHAR(8)
 )
-begin
+BEGIN
     INSERT INTO student (sid, sname, gender, birth_date, major_id)
     VALUES
     (sid, sname, gender, birth_date, major_id);
-end //
+END //
 DELIMITER ;
