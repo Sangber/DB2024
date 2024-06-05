@@ -5,7 +5,12 @@
     <title>学生列表</title>
 </head>
 <body>
-
+<a href="../">返回</a>
+<form action="../student" style="margin: 10px 0">
+    <input name="sname" placeholder="请输入姓名" value="{{ sname }}" style="margin-right: 10px"/>
+    <input name="sid" placeholder="请输入学号" value="{{ sid }}" style="margin-right: 10px"/>
+    <button type="submit">查询</button>
+</form>
 <table border="1px" width="100%" style="border-collapse: collapse;">
     <tr>
         <th>学号</th>
