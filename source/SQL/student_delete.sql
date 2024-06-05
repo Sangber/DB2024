@@ -13,6 +13,6 @@ END //
 CREATE PROCEDURE student_delete(in sid CHAR(8))
 BEGIN
     DELETE FROM student
-    WHERE s.sid = sid;
+    WHERE student.sid = sid;
 END //
 DELIMITER ;
