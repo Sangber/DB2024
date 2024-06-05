@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>课程列表</title>
+</head>
+<body>
+
+<table border="1px" width="100%" style="border-collapse: collapse;">
+    <tr>
+        <th>课程代码</th>
+        <th>课程名称</th>
+    </tr>
+    {% for course in courses %}
+        <tr>
+            <td align="center">{{ course.cid }} </td>
+            <td align="center">{{ course.cname }} </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
