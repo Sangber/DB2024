@@ -56,6 +56,22 @@ def student_index(request):
         students = cursor.fetchall()
     return render(request, 'student/index.html', {'students': students})
 
+def student_add(request):
+    if request.method == 'GET':
+        return render(request, 'student/add.html')
+    else:
+        sid         = request.POST.get('sid', '')
+        sname       = request.POST.get('sname', '')
+        gender      = request.POST.get('gender', '')
+        birth_date  = request.POST.get('birth_date', '')
+        major_id    = request.POST.get('major_id', '')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("INSERT INTO student (sid, sname, gender, birth_date, major_id)"
+                           "VALUES", [sid, sname, gender, birth_date, major_id])
+            conn.commit()
+        return redirect('../student')
+
 def course_index(request):
     cid         = request.GET.get('cid', '')
     cname       = request.GET.get('cname', '')

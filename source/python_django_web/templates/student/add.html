@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增学生</title>
+    <style>
+        form {
+            margin: 20px auto;
+            width: 500px;
+            border: 1px solid #ccc;
+            padding: 20px
+        }
+    </style>
+</head>
+<body>
+<a href="../student">返回</a>
+<form method="post" action="../student/add">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th>姓名</th>
+            <td><input name="sname"></td>
+        </tr>
+        <tr>
+            <th>学号</th>
+            <td><input name="sid"/></td>
+        </tr>
+        <tr>
+            <th>性别</th>
+            <td><input name="gender"/></td>
+        </tr>
+        <tr>
+            <th>出生日期</th>
+            <td><input type="date" name="birth_date"/></td>
+        </tr>
+        <tr>
+            <th>专业</th>
+            <td><input name="major_id"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit"/>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
