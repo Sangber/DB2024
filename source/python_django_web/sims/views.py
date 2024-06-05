@@ -24,14 +24,14 @@ def major_index(request):
 
 def major_edit(request):
     if request.method == 'GET':
-        mid = request.GET.get("mid")
+        mid = request.GET.get('mid', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT mid, mname FROM major where mid =%s", [mid])
             major = cursor.fetchone()
         return render(request, 'major/edit.html', {'major': major})
     else:
-        mid     = request.POST.get("mid")
+        mid     = request.POST.get('mid', '')
         mname   = request.POST.get('mname', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
