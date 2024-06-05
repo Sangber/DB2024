@@ -14,7 +14,7 @@
 </head>
 <body>
 <a href="../major">返回</a>
-<form method="post" action="../major/edit">
+<form method="post" action="../major/edit/">
     {% csrf_token %}
     <input type="hidden" name="mid" value="{{ major.mid }}"/>
 

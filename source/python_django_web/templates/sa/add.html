@@ -14,8 +14,10 @@
 </head>
 <body>
 <a href="../sa">返回</a>
-<form method="post" action="../sa/add?sid={{ sid }}">
+<form method="post" action="../add/">
     {% csrf_token %}
+    <input type="hidden" name="student_id" value="{{ sid }}"/>
+
     <table>
         <tr>
             <th>奖惩</th>
