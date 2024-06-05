@@ -51,5 +51,5 @@ CREATE TABLE sa (
     award_time DATE,
     Foreign Key (student_id) REFERENCES student(sid),
     Foreign Key (award_id)   REFERENCES award(aid),
-    PRIMARY KEY (student_id, award_id)
+    PRIMARY KEY (student_id, award_id, award_time)
 );
