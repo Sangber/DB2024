@@ -29,6 +29,7 @@
             <td align="center">{{ student.birth_date }} </td>
             <td align="center">{{ student.mname }} </td>
             <td align="center">
+                <a href="../student/edit?sid={{ student.sid }}">编辑</a>
                 <a href="../student/delete?sid={{ student.sid }}" onclick="return confirmDelete()">删除</a>
             </td>
         </tr>
