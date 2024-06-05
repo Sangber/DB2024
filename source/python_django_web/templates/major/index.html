@@ -5,16 +5,22 @@
     <title>专业列表</title>
 </head>
 <body>
-
+<a href="../">返回</a>
 <table border="1px" width="100%" style="border-collapse: collapse;">
     <tr>
         <th>专业代码</th>
         <th>专业名称</th>
+        <th>操作</th>
     </tr>
     {% for major in majors %}
         <tr>
             <td align="center">{{ major.mid }} </td>
             <td align="center">{{ major.mname }} </td>
+            <td align="center">
+                <a href="../major/edit?mid={{ major.mid }}">
+                    编辑
+                </a>
+            </td>
         </tr>
     {% endfor %}
 </table>

@@ -1,5 +1,5 @@
 import MySQLdb
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 def index(request):
@@ -21,6 +21,23 @@ def major_index(request):
         cursor.execute(sql)
         majors = cursor.fetchall()
     return render(request, 'major/index.html', {'majors': majors})
+
+def major_edit(request):
+    if request.method == 'GET':
+        mid = request.GET.get("mid")
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT mid, mname FROM major where mid =%s", [mid])
+            major = cursor.fetchone()
+        return render(request, 'major/edit.html', {'major': major})
+    else:
+        mid     = request.POST.get("mid")
+        mname   = request.POST.get('mname', '')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("UPDATE major set mname=%s where mid =%s", [mname, mid])
+            conn.commit()
+        return redirect('../')
 
 def student_index(request):
     sid         = request.GET.get('sid', '')
