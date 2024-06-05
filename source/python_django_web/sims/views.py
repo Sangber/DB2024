@@ -162,9 +162,11 @@ def sa_add(request):
     if request.method == 'GET':
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT * FROM award")
-            options = cursor.fetchall()
-        return render(request, 'sa/add.html', {'options': options})
+            cursor.execute("SELECT aid, aname FROM award")
+            awards = cursor.fetchall()
+            cursor.execute("SELECT sid, sname FROM student")
+            students = cursor.fetchall()
+        return render(request, 'sa/add.html', {'awards': awards, 'students': students})
     else:
         student_id  = request.POST.get('student_id', '')
         award_id    = request.POST.get('award_id', '')

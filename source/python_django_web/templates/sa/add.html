@@ -18,15 +18,21 @@
     {% csrf_token %}
     <table>
         <tr>
-            <th>学号</th>
-            <td><input name="student_id"/></td>
+            <th>学生</th>
+            <td>
+                <select name="student_id">
+                    {% for student in students %}
+                        <option value="{{ student.sid }}">{{ student.sname }}</option>
+                    {% endfor %}
+                </select>
+            </td>
         </tr>
         <tr>
             <th>奖惩</th>
             <td>
                 <select name="award_id">
-                    {% for option in options %}
-                        <option value="{{ option.aid }}">{{ option.aname }}</option>
+                    {% for award in awards %}
+                        <option value="{{ award.aid }}">{{ award.aname }}</option>
                     {% endfor %}
                 </select>
             <td/>
