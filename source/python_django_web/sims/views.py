@@ -140,3 +140,49 @@ def award_index(request):
         cursor.execute(sql)
         awards = cursor.fetchall()
     return render(request, 'award/index.html', {'awards': awards})
+
+def sa_index(request):
+    sname = request.GET.get('sname', '')
+    aname = request.GET.get('aname', '')
+
+    sql =  "SELECT sid, sname, aid, aname, award_time FROM student, award, sa"
+    "WHERE sid = student_id and aid = award_id"
+    if sname.strip() != '':
+        sql = sql + " and sname = '" + sname + "'"
+    if aname.strip() != '':
+        sql = sql + " and aname = '" + aname + "'"
+
+    print(sql)
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute(sql)
+        sas = cursor.fetchall()
+    return render(request, 'sa/index.html', {'sas': sas})
+
+def sa_add(request):
+    if request.method == 'GET':
+        sid = request.GET.get('sid', '')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT aid, aname FROM award", [sid])
+            options = cursor.fetchall()
+        return render(request, 'sa/add.html', {'sid': sid, 'options': options})
+    else:
+        student_id  = request.POST.get('sid', '')
+        award_id    = request.POST.get('award_id', '')
+        award_time  = request.POST.get('award_time', '')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("INSERT INTO sa (student_id, award_id, award_time)"
+                           "VALUES(%s, %s, %s)", [student_id, award_id, award_time])
+            conn.commit()
+        return redirect('../sa')
+
+def sa_delete(request):
+    sid = request.GET.get('sid', '')
+    aid = request.GET.get('aid', '')
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute("DELETE FROM sa WHERE sid=%s and aid=%s", [sid, aid])
+        conn.commit()
+    return redirect('../sa')
