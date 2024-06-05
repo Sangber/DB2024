@@ -76,6 +76,14 @@ def student_add(request):
             conn.commit()
         return redirect('../student')
 
+def student_delete(request):
+    sid = request.GET.get('sid', '')
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute("DELETE FROM student WHERE sid =%s", [sid])
+        conn.commit()
+    return redirect('../student')
+
 def course_index(request):
     cid         = request.GET.get('cid', '')
     cname       = request.GET.get('cname', '')
