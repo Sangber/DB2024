@@ -1,4 +1,5 @@
 import MySQLdb
+from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -6,8 +7,8 @@ def index(request):
     return render(request, 'index.html')
 
 def major_index(request):
-    mid         = request.GET.get('mid', '')
-    mname       = request.GET.get('mname', '')
+    mid         = request.GET['mid']
+    mname       = request.GET['mname']
 
     sql =  "SELECT mid, mname FROM major WHERE 1=1 "
     if mid.strip() != '':
@@ -24,15 +25,15 @@ def major_index(request):
 
 def major_edit(request):
     if request.method == 'GET':
-        mid = request.GET.get('mid', '')
+        mid = request.GET['mid']
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT mid, mname FROM major where mid =%s", [mid])
             major = cursor.fetchone()
         return render(request, 'major/edit.html', {'major': major})
     else:
-        mid     = request.POST.get('mid', '')
-        mname   = request.POST.get('mname', '')
+        mid     = request.POST['mid']
+        mname   = request.POST['mname']
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE major set mname=%s where mid =%s", [mname, mid])
@@ -40,8 +41,8 @@ def major_edit(request):
         return redirect('../major')
 
 def student_index(request):
-    sid         = request.GET.get('sid', '')
-    sname       = request.GET.get('sname', '')
+    sid         = request.GET['sid']
+    sname       = request.GET['sname']
 
     sql =  "SELECT sid, sname, gender, birth_date, major.mname FROM student, major WHERE student.major_id = major.mid "
     if sid.strip() != '':
@@ -60,11 +61,11 @@ def student_add(request):
     if request.method == 'GET':
         return render(request, 'student/add.html')
     else:
-        sid         = request.POST.get('sid', '')
-        sname       = request.POST.get('sname', '')
-        gender      = request.POST.get('gender', '')
-        birth_date  = request.POST.get('birth_date', '')
-        major_id    = request.POST.get('major_id', '')
+        sid         = request.POST['sid']
+        sname       = request.POST['sname']
+        gender      = request.POST['gender']
+        birth_date  = request.POST['birth_date']
+        major_id    = request.POST['major_id']
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("INSERT INTO student (sid, sname, gender, birth_date, major_id)"
@@ -73,8 +74,8 @@ def student_add(request):
         return redirect('../student')
 
 def course_index(request):
-    cid         = request.GET.get('cid', '')
-    cname       = request.GET.get('cname', '')
+    cid         = request.GET['cid']
+    cname       = request.GET['cname']
 
     sql =  "SELECT cid, cname, major.mname FROM course, major WHERE course.major_id = major.mid "
     if cid.strip() != '':
