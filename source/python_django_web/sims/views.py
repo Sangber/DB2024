@@ -68,8 +68,7 @@ def student_add(request):
         major_id    = request.POST['major_id']
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("INSERT INTO student (sid, sname, gender, birth_date, major_id)"
-                           "VALUES", [sid, sname, gender, birth_date, major_id])
+            cursor.execute("call student_add(%s, %s, %s, %s, %s)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
         return redirect('../student')
 
