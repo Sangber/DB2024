@@ -37,7 +37,7 @@ def major_edit(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE major set mname=%s where mid =%s", [mname, mid])
             conn.commit()
-        return redirect('../')
+        return redirect('../major')
 
 def student_index(request):
     sid         = request.GET.get('sid', '')
