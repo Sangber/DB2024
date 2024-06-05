@@ -16,3 +16,7 @@ class course(models.Model):
     cid         = models.CharField(max_length = 32, unique = True)
     cname       = models.CharField(max_length = 32)
     major_id    = models.CharField(max_length = 32)
+
+class award(models.Model):
+    aid     = models.CharField(max_length = 32, unique = True)
+    aname   = models.CharField(max_length = 32)

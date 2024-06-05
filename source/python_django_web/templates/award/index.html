@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>奖惩列表</title>
+</head>
+<body>
+<a href="../">返回</a>
+<form action="../award" style="margin: 10px 0">
+    <input name="aname" placeholder="请输入奖惩内容" value="{{ aname }}" style="margin-right: 10px"/>
+    <input name="aid" placeholder="请输入奖惩代码" value="{{ aid }}" style="margin-right: 10px"/>
+    <button type="submit">查询</button>
+</form>
+<table border="1px" width="100%" style="border-collapse: collapse;">
+    <tr>
+        <th>奖惩代码</th>
+        <th>奖惩内容</th>
+    </tr>
+    {% for award in awards %}
+        <tr>
+            <td align="center">{{ award.aid }} </td>
+            <td align="center">{{ award.aname }} </td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

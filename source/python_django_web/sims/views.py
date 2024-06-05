@@ -123,3 +123,20 @@ def course_index(request):
         cursor.execute(sql)
         courses = cursor.fetchall()
     return render(request, 'course/index.html', {'courses': courses})
+
+def award_index(request):
+    aid         = request.GET.get('aid', '')
+    aname       = request.GET.get('aname', '')
+
+    sql =  "SELECT aid, aname FROM award WHERE 1=1 "
+    if aid.strip() != '':
+        sql = sql + " and aid = '" + aid + "'"
+    if aname.strip() != '':
+        sql = sql + " and aname = '" + aname + "'"
+
+    print(sql)
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute(sql)
+        awards = cursor.fetchall()
+    return render(request, 'award/index.html', {'awards': awards})
