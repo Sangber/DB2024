@@ -19,15 +19,17 @@
     <table>
         <tr>
             <th>学号</th>
-            <input name="student_id"/>
+            <td><input name="student_id"/></td>
         </tr>
         <tr>
             <th>奖惩</th>
-            <select name="award_id">
-                {% for option in options %}
-                    <option value="{{ option.aid }}">{{ option.aname }}</option>
-                {% endfor %}
-            </select>
+            <td>
+                <select name="award_id">
+                    {% for option in options %}
+                        <option value="{{ option.aid }}">{{ option.aname }}</option>
+                    {% endfor %}
+                </select>
+            <td/>
         </tr>
         <tr>
             <th>获奖时间</th>
