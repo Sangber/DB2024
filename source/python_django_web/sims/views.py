@@ -164,11 +164,11 @@ def sa_add(request):
         sid = request.GET.get('sid', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT aid, aname FROM award", [sid])
+            cursor.execute("SELECT aid, aname FROM award")
             options = cursor.fetchall()
         return render(request, 'sa/add.html', {'sid': sid, 'options': options})
     else:
-        student_id  = request.POST.get('sid', '')
+        student_id  = request.POST.get('student_id', '')
         award_id    = request.POST.get('award_id', '')
         award_time  = request.POST.get('award_time', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
