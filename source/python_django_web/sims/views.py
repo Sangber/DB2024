@@ -164,6 +164,8 @@ def sa_index(request):
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         sas = cursor.fetchall()
+    for sa in sas:
+        sa['award_time'] = sa['award_time'].strftime('%Y-%m-%d')
     return render(request, 'sa/index.html', {'sas': sas})
 
 def sa_add(request):
