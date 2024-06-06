@@ -1,4 +1,5 @@
 import MySQLdb
+import random
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
@@ -28,7 +29,7 @@ def major_edit(request):
         mid = request.GET.get('mid', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT mid, mname FROM major where mid =%s", [mid])
+            cursor.execute("SELECT mid, mname FROM major WHERE mid =%s", [mid])
             major = cursor.fetchone()
         return render(request, 'major/edit.html', {'major': major})
     else:
@@ -36,9 +37,9 @@ def major_edit(request):
         mname   = request.POST.get('mname', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("UPDATE major set mname=%s where mid =%s", [mname, mid])
+            cursor.execute("UPDATE major set mname=%s WHERE mid =%s", [mname, mid])
             conn.commit()
-        return redirect('../major/')
+        return redirect('../')
 
 def student_index(request):
     sid         = request.GET.get('sid', '')
@@ -81,7 +82,7 @@ def student_edit(request):
         sid = request.GET.get('sid', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT sid, sname, gender, birth_date, major_id FROM student where sid =%s", [sid])
+            cursor.execute("SELECT sid, sname, gender, birth_date, major_id FROM student WHERE sid =%s", [sid])
             student = cursor.fetchone()
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT * FROM major")
@@ -183,5 +184,69 @@ def sa_delete(request):
     conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute("DELETE FROM sa WHERE student_id=%s and award_id=%s", [sid, aid])
+        conn.commit()
+    return redirect('../')
+
+def sc_index(request):
+    sname = request.GET.get('sname', '')
+    cname = request.GET.get('aname', '')
+
+    sql =  "SELECT sid, sname, cid, cname, score FROM student, course, sc WHERE student.sid = sc.student_id and course.cid = sc.course_id"
+    if sname.strip() != '':
+        sql = sql + " and sname = '" + sname + "'"
+    if cname.strip() != '':
+        sql = sql + " and cname = '" + cname + "'"
+
+    print(sql)
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute(sql)
+        scs = cursor.fetchall()
+    return render(request, 'sc/index.html', {'scs': scs})
+
+def sc_add(request):
+    if request.method == 'GET':
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT cid, cname FROM course")
+            courses = cursor.fetchall()
+            cursor.execute("SELECT sid, sname FROM student")
+            students = cursor.fetchall()
+        return render(request, 'sc/add.html', {'courses': courses, 'students': students})
+    else:
+        student_id  = request.POST.get('student_id', '')
+        course_id   = request.POST.get('course_id', '')
+        score = random.randint(50, 90)
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("INSERT INTO sc (student_id, course_id, score) VALUES(%s, %s, %s)", [student_id, course_id, score])
+            conn.commit()
+        return redirect('../')
+
+def sc_edit(request):
+    if request.method == 'GET':
+        sid  = request.GET.get('sid', '')
+        cid  = request.GET.get('cid', '')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT sid, sname, cid, cname, score FROM student, course, sc WHERE sid=student_id and cid=course_id and sid=%s and cid=%s", [sid, cid])
+            sc = cursor.fetchone()
+        return render(request, 'sc/edit.html', {'sc': sc})
+    else:
+        student_id  = request.POST.get('student_id', '')
+        course_id   = request.POST.get('course_id', '')
+        score       = request.POST.get('score', '')
+        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("UPDATE sc set score=%s WHERE student_id=%s and course_id=%s", [score, student_id, course_id])
+            conn.commit()
+        return redirect('../')
+
+def sc_delete(request):
+    sid = request.GET.get('sid', '')
+    cid = request.GET.get('cid', '')
+    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+        cursor.execute("DELETE FROM sc WHERE student_id=%s and course_id=%s", [sid, cid])
         conn.commit()
     return redirect('../')
