@@ -19,6 +19,8 @@
         <th>性别</th>
         <th>出生日期</th>
         <th>专业</th>
+        <th>GPA</th>
+        <th>专业GPA</th>
         <th>操作</th>
     </tr>
     {% for student in students %}
@@ -28,6 +30,8 @@
             <td align="center">{{ student.gender }} </td>
             <td align="center">{{ student.birth_date }} </td>
             <td align="center">{{ student.mname }} </td>
+            <td align="center">{{ student.s_gpa }} </td>
+            <td align="center">{{ student.s_major_gpa }} </td>
             <td align="center">
                 <a href="./edit/?sid={{ student.sid }}">编辑</a>
                 <a href="./delete/?sid={{ student.sid }}" onclick="return confirmDelete()">删除</a>
