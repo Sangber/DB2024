@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新增选课信息</title>
+    <style>
+        form {
+            margin: 20px auto;
+            width: 500px;
+            border: 1px solid #ccc;
+            padding: 20px
+        }
+    </style>
+</head>
+<body>
+<a href="../">返回</a>
+<form method="post" action="../add/">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <th>学生</th>
+            <td>
+                <select name="student_id">
+                    {% for student in students %}
+                        <option value="{{ student.sid }}">{{ student.sname }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>课程</th>
+            <td>
+                <select name="course_id">
+                    {% for course in courses %}
+                        <option value="{{ course.cid }}">{{ course.cname }}</option>
+                    {% endfor %}
+                </select>
+            <td/>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit"/>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
