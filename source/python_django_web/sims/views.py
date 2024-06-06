@@ -215,9 +215,15 @@ def sa_add(request):
         award_time  = request.POST.get('award_time', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("INSERT INTO sa (student_id, award_id, award_time) VALUES(%s, %s, %s)", [student_id, award_id, award_time])
+            cursor.execute("CALL sa_add(%s, %s, %s, @flag)", [student_id, award_id, award_time])
             conn.commit()
-        return redirect('../')
+            cursor.execute("SELECT @flag")
+            flag = cursor.fetchone()
+        # print(flag)
+        if flag['@flag'] == 0:
+            return redirect('/sims/passed/?path=%s' % ('sa_'))
+        else:
+            return redirect('/sims/failed/?path=%s' % ('sa_'))
 
 def sa_delete(request):
     sid = request.GET.get('sid', '')
@@ -260,9 +266,15 @@ def sc_add(request):
         score = random.randint(50, 90)
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("INSERT INTO sc (student_id, course_id, score) VALUES(%s, %s, %s)", [student_id, course_id, score])
+            cursor.execute("CALL sc_add(%s, %s, %s, @flag)", [student_id, course_id, score])
             conn.commit()
-        return redirect('../')
+            cursor.execute("SELECT @flag")
+            flag = cursor.fetchone()
+        # print(flag)
+        if flag['@flag'] == 0:
+            return redirect('/sims/passed/?path=%s' % ('sc_'))
+        else:
+            return redirect('/sims/failed/?path=%s' % ('sc_'))
 
 def sc_edit(request):
     if request.method == 'GET':
@@ -277,8 +289,6 @@ def sc_edit(request):
         student_id  = request.POST.get('student_id', '')
         course_id   = request.POST.get('course_id', '')
         score       = request.POST.get('score', '')
-        if score > 100 or score < 0:
-            return redirect('/sims/failed/?path=%s' % ('sc_'))
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE sc set score=%s WHERE student_id=%s and course_id=%s", [score, student_id, course_id])
