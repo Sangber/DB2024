@@ -58,6 +58,8 @@ def student_index(request):
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         students = cursor.fetchall()
+    for student in students:
+        student['birth_date'] = student['birth_date'].strftime('%Y-%m-%d')
     return render(request, 'student/index.html', {'students': students})
 
 def student_add(request):
@@ -86,6 +88,7 @@ def student_edit(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT sid, sname, gender, birth_date, major_id FROM student WHERE sid =%s", [sid])
             student = cursor.fetchone()
+        student['birth_date'] = student['birth_date'].strftime('%Y-%m-%d')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT * FROM major")
             options = cursor.fetchall()
