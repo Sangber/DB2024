@@ -18,6 +18,7 @@
         <th>姓名</th>
         <th>奖惩代码</th>
         <th>奖惩内容</th>
+        <th>获得奖/惩时间</th>
         <th>操作</th>
     </tr>
     {% for sa in sas %}
@@ -26,6 +27,7 @@
             <td align="center">{{ sa.sname }} </td>
             <td align="center">{{ sa.aid }} </td>
             <td align="center">{{ sa.aname }} </td>
+            <td align="center">{{ sa.award_time }} </td>
             <td align="center">
                 <a href="../sa/delete/?sid={{ sa.sid }}&aid={{ sa.aid }}" onclick="return confirmDelete()">删除</a>
             </td>
