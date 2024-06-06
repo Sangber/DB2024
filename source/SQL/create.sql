@@ -47,7 +47,7 @@ CREATE TABLE sc (
 DROP TABLE IF EXISTS sa;
 CREATE TABLE sa (
 	student_id CHAR(8),
-    award_id CHAR(8),
+    award_id   CHAR(8),
     award_time DATE,
     Foreign Key (student_id) REFERENCES student(sid),
     Foreign Key (award_id)   REFERENCES award(aid),
