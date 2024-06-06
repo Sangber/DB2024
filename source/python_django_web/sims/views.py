@@ -45,8 +45,9 @@ def student_index(request):
     sid         = request.GET.get('sid', '')
     sname       = request.GET.get('sname', '')
 
-    sql =  "SELECT sid, sname, gender, birth_date, major.mname, gpa(sid) as s_gpa, major_gpa(sid) as s_major_gpa \
-    FROM student, major WHERE student.major_id = major.mid "
+    sql =  "SELECT sid, sname, gender, birth_date, major.mname, s_status, \
+        gpa(sid) as s_gpa, major_gpa(sid) as s_major_gpa \
+            FROM student, major WHERE student.major_id = major.mid "
     if sid.strip() != '':
         sql = sql + " and sid = '" + sid + "'"
     if sname.strip() != '':
