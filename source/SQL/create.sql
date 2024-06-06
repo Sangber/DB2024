@@ -15,7 +15,7 @@ CREATE TABLE student (
     birth_date DATE,
     major_id CHAR(8),
     s_status VARCHAR(100) check (s_status = '合格' or s_status = '不合格') DEFAULT '合格',
-    Foreign Key (major_id) REFERENCES major(mid),
+    Foreign Key (major_id) REFERENCES major(mid) ON DELETE CASCADE,
     PRIMARY KEY (sid)
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE course (
 	cid CHAR(8),
     cname VARCHAR(100) check (cname is not null),
     major_id CHAR(8),
-    Foreign Key (major_id) REFERENCES major(mid),
+    Foreign Key (major_id) REFERENCES major(mid) ON DELETE CASCADE,
     PRIMARY KEY (cid)
 );
 
@@ -40,8 +40,8 @@ CREATE TABLE sc (
 	student_id CHAR(8),
     course_id  CHAR(8),
     score INT check (score >= 10 and score <= 100) DEFAULT 0,
-    Foreign Key (student_id) REFERENCES student(sid),
-    Foreign Key (course_id)  REFERENCES course(cid),
+    Foreign Key (student_id) REFERENCES student(sid) ON DELETE CASCADE,
+    Foreign Key (course_id)  REFERENCES course(cid)  ON DELETE CASCADE,
     PRIMARY KEY (student_id, course_id)
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE sa (
 	student_id CHAR(8),
     award_id   CHAR(8),
     award_time DATE,
-    Foreign Key (student_id) REFERENCES student(sid),
-    Foreign Key (award_id)   REFERENCES award(aid),
+    Foreign Key (student_id) REFERENCES student(sid) ON DELETE CASCADE,
+    Foreign Key (award_id)   REFERENCES award(aid)   ON DELETE CASCADE,
     PRIMARY KEY (student_id, award_id, award_time)
 );
