@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>操作成功！</title>
+</head>
+<body>
+<form method="post" action="../passed/">
+{% csrf_token %}
+<input type="hidden" name="path" value="{{ path }}">
+操作成功！
+<input type="submit" value="确定"/>
+</form>
+</body>
+</html>
