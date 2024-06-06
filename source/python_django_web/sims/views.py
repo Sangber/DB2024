@@ -7,6 +7,24 @@ from django.shortcuts import render, redirect
 def index(request):
     return render(request, 'index.html')
 
+def passed(request):
+    if request.method == 'GET':
+        path = request.GET.get('path', '')
+        return render(request, 'passed.html', {'path':path})
+    else:
+        path = request.POST.get('path', '')
+        path = path.replace("_", "/")
+        return redirect('/sims/%s' % (path))
+
+def failed(request):
+    if request.method == 'GET':
+        path = request.GET.get('path', '')
+        return render(request, 'failed.html', {'path':path})
+    else:
+        path = request.POST.get('path', '')
+        path = path.replace("_", "/")
+        return redirect('/sims/%s' % (path))
+
 def major_index(request):
     mid         = request.GET.get('mid', '')
     mname       = request.GET.get('mname', '')
@@ -77,9 +95,15 @@ def student_add(request):
         major_id    = request.POST.get('major_id', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("call student_add(%s, %s, %s, %s, %s)", [sid, sname, gender, birth_date, major_id])
+            cursor.execute("CALL student_add(%s, %s, %s, %s, %s, @flag)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
-        return redirect('../')
+            cursor.execute("SELECT @flag")
+            flag = cursor.fetchone()
+            print(flag)
+            if flag['@flag'] == 0:
+                return redirect('/sims/passed/?path=%s' % ('student_'))
+            else:
+                return redirect('/sims/failed/?path=%s' % ('student_'))
 
 def student_edit(request):
     if request.method == 'GET':
@@ -101,7 +125,7 @@ def student_edit(request):
         major_id    = request.POST.get('major_id', '')
         conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("call student_edit(%s, %s, %s, %s, %s)", [sid, sname, gender, birth_date, major_id])
+            cursor.execute("CALL student_edit(%s, %s, %s, %s, %s)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
         return redirect('../')
 
@@ -109,7 +133,7 @@ def student_delete(request):
     sid = request.GET.get('sid', '')
     conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-        cursor.execute("call student_delete(%s)", [sid])
+        cursor.execute("CALL student_delete(%s)", [sid])
         conn.commit()
     return redirect('../')
 
