@@ -14,7 +14,7 @@ CREATE TABLE student (
     gender VARCHAR(8) check (gender = '男' or gender = '女'),
     birth_date DATE,
     major_id CHAR(8),
-    s_status VARCHAR(100) check (s_status = '合格' or s_status = '不合格'),
+    s_status VARCHAR(100) check (s_status = '合格' or s_status = '不合格') DEFAULT '合格',
     Foreign Key (major_id) REFERENCES major(mid),
     PRIMARY KEY (sid)
 );
