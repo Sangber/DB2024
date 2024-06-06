@@ -5,19 +5,19 @@
     <title>专业列表</title>
 </head>
 <body>
-<a href="../">返回</a>
-<form action="../major" style="margin: 10px 0">
-    <input name="mname" placeholder="请输入专业名称" value="{{ mname }}" style="margin-right: 10px"/>
-    <input name="mid" placeholder="请输入专业代码" value="{{ mid }}" style="margin-right: 10px"/>
-    <button type="submit">查询</button>
-</form>
-<table border="1px" width="100%" style="border-collapse: collapse;">
-    <tr>
-        <th>专业代码</th>
-        <th>专业名称</th>
-        <th>操作</th>
-    </tr>
-    {% for major in majors %}
+    <a href="../">返回</a>
+    <form action="../major" style="margin: 10px 0">
+        <input name="mname" placeholder="请输入专业名称" value="{{ mname }}" style="margin-right: 10px" />
+        <input name="mid" placeholder="请输入专业代码" value="{{ mid }}" style="margin-right: 10px" />
+        <button type="submit">查询</button>
+    </form>
+    <table border="1px" width="100%" style="border-collapse: collapse;">
+        <tr>
+            <th>专业代码</th>
+            <th>专业名称</th>
+            <th>操作</th>
+        </tr>
+        {% for major in majors %}
         <tr>
             <td align="center">{{ major.mid }} </td>
             <td align="center">{{ major.mname }} </td>
@@ -27,7 +27,7 @@
                 </a>
             </td>
         </tr>
-    {% endfor %}
-</table>
+        {% endfor %}
+    </table>
 </body>
 </html>

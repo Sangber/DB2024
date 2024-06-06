@@ -13,47 +13,53 @@
     </style>
 </head>
 <body>
-<a href="../">返回</a>
-<form method="post" action="../add/">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <th>姓名</th>
-            <td><input name="sname"></td>
-        </tr>
-        <tr>
-            <th>学号</th>
-            <td><input name="sid"/></td>
-        </tr>
-        <tr>
-            <th>性别</th>
-            <td>
-                <select name="gender">
-                    <option value="男">男</option>
-                    <option value="女">女</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th>出生日期</th>
-            <td><input type="date" name="birth_date" value="2005-01-01"/></td>
-        </tr>
-        <tr>
-            <th>专业</th>
-            <td>
-                <select name="major_id">
-                    {% for option in options %}
+    <a href="../">返回</a>
+    <form method="post" action="../add/">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>姓名</th>
+                <td>
+                    <input name="sname">
+                </td>
+            </tr>
+            <tr>
+                <th>学号</th>
+                <td>
+                    <input name="sid" />
+                </td>
+            </tr>
+            <tr>
+                <th>性别</th>
+                <td>
+                    <select name="gender">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>出生日期</th>
+                <td>
+                    <input type="date" name="birth_date" value="2005-01-01" />
+                </td>
+            </tr>
+            <tr>
+                <th>专业</th>
+                <td>
+                    <select name="major_id">
+                        {% for option in options %}
                         <option value="{{ option.mid }}">{{ option.mname }}</option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit"/>
-            </td>
-        </tr>
-    </table>
-</form>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" />
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

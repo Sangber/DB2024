@@ -13,28 +13,28 @@
     </style>
 </head>
 <body>
-<a href="../">返回</a>
-<form method="post" action="../edit/">
-    {% csrf_token %}
-    <input type="hidden" name="mid" value="{{ major.mid }}"/>
+    <a href="../">返回</a>
+    <form method="post" action="../edit/">
+        {% csrf_token %}
+        <input type="hidden" name="mid" value="{{ major.mid }}" />
 
-    <table>
-        <tr>
-            <th>专业代码</th>
-            <td>{{ major.mid }}</td>
-        </tr>
-        <tr>
-            <th>专业名称</th>
-            <td>
-                <input name="mname" value="{{ major.mname }}">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit"/>
-            </td>
-        </tr>
-    </table>
-</form>
+        <table>
+            <tr>
+                <th>专业代码</th>
+                <td>{{ major.mid }}</td>
+            </tr>
+            <tr>
+                <th>专业名称</th>
+                <td>
+                    <input name="mname" value="{{ major.mname }}">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" />
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

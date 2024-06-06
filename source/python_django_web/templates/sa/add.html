@@ -13,40 +13,42 @@
     </style>
 </head>
 <body>
-<a href="../">返回</a>
-<form method="post" action="../add/">
-    {% csrf_token %}
-    <table>
-        <tr>
-            <th>学生</th>
-            <td>
-                <select name="student_id">
-                    {% for student in students %}
+    <a href="../">返回</a>
+    <form method="post" action="../add/">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>学生</th>
+                <td>
+                    <select name="student_id">
+                        {% for student in students %}
                         <option value="{{ student.sid }}">{{ student.sname }}</option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th>奖惩</th>
-            <td>
-                <select name="award_id">
-                    {% for award in awards %}
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>奖惩</th>
+                <td>
+                    <select name="award_id">
+                        {% for award in awards %}
                         <option value="{{ award.aid }}">{{ award.aname }}</option>
-                    {% endfor %}
-                </select>
-            <td/>
-        </tr>
-        <tr>
-            <th>获奖时间</th>
-            <td><input type="date" name="award_time" value="2005-01-01"/></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit"/>
-            </td>
-        </tr>
-    </table>
-</form>
+                        {% endfor %}
+                    </select>
+                    <td />
+            </tr>
+            <tr>
+                <th>获奖时间</th>
+                <td>
+                    <input type="date" name="award_time" value="2005-01-01" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" />
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

@@ -5,23 +5,23 @@
     <title>奖惩清单</title>
 </head>
 <body>
-<a href="../">返回</a>
-<form action="../sa/" style="margin: 10px 0">
-    <input name="sname" placeholder="请输入姓名" value="{{ sname }}" style="margin-right: 10px"/>
-    <input name="aname" placeholder="请输入奖惩内容" value="{{ aname }}" style="margin-right: 10px"/>
-    <button type="submit">查询</button>
-</form>
-<a href="../sa/add/">新增奖惩信息</a>
-<table border="1px" width="100%" style="border-collapse: collapse;">
-    <tr>
-        <th>学号</th>
-        <th>姓名</th>
-        <th>奖惩代码</th>
-        <th>奖惩内容</th>
-        <th>获得奖/惩时间</th>
-        <th>操作</th>
-    </tr>
-    {% for sa in sas %}
+    <a href="../">返回</a>
+    <form action="../sa/" style="margin: 10px 0">
+        <input name="sname" placeholder="请输入姓名" value="{{ sname }}" style="margin-right: 10px" />
+        <input name="aname" placeholder="请输入奖惩内容" value="{{ aname }}" style="margin-right: 10px" />
+        <button type="submit">查询</button>
+    </form>
+    <a href="../sa/add/">新增奖惩信息</a>
+    <table border="1px" width="100%" style="border-collapse: collapse;">
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>奖惩代码</th>
+            <th>奖惩内容</th>
+            <th>获得奖/惩时间</th>
+            <th>操作</th>
+        </tr>
+        {% for sa in sas %}
         <tr>
             <td align="center">{{ sa.sid }} </td>
             <td align="center">{{ sa.sname }} </td>
@@ -32,12 +32,12 @@
                 <a href="../sa/delete/?sid={{ sa.sid }}&aid={{ sa.aid }}" onclick="return confirmDelete()">删除</a>
             </td>
         </tr>
-    {% endfor %}
-</table>
-<script>
-    function confirmDelete() {
-        return confirm("是否确认删除？")
-    }
-</script>
+        {% endfor %}
+    </table>
+    <script>
+        function confirmDelete() {
+                return confirm("是否确认删除？")
+            }
+    </script>
 </body>
 </html>

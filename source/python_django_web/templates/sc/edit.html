@@ -13,41 +13,41 @@
     </style>
 </head>
 <body>
-<a href="../">返回</a>
-<form method="post" action="../edit/">
-    {% csrf_token %}
-    <input type="hidden" name="student_id" value="{{ sc.sid }}"/>
-    <input type="hidden" name="course_id"  value="{{ sc.cid }}"/>
+    <a href="../">返回</a>
+    <form method="post" action="../edit/">
+        {% csrf_token %}
+        <input type="hidden" name="student_id" value="{{ sc.sid }}" />
+        <input type="hidden" name="course_id" value="{{ sc.cid }}" />
 
-    <table>
-        <tr>
-            <th>学号</th>
-            <td>{{ sc.sid }}</td>
-        </tr>
-        <tr>
-            <th>姓名</th>
-            <td>{{ sc.sname }}</td>
-        </tr>
-        <tr>
-            <th>课程代码</th>
-            <td>{{ sc.cid }}</td>
-        </tr>
-        <tr>
-            <th>课程名称</th>
-            <td>{{ sc.cname }}</td>
-        </tr>
-        <tr>
-            <th>课业成绩</th>
-            <td>
-                <input type="number" min="0" max="100" name="score" value="{{ sc.score }}"/>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit"/>
-            </td>
-        </tr>
-    </table>
-</form>
+        <table>
+            <tr>
+                <th>学号</th>
+                <td>{{ sc.sid }}</td>
+            </tr>
+            <tr>
+                <th>姓名</th>
+                <td>{{ sc.sname }}</td>
+            </tr>
+            <tr>
+                <th>课程代码</th>
+                <td>{{ sc.cid }}</td>
+            </tr>
+            <tr>
+                <th>课程名称</th>
+                <td>{{ sc.cname }}</td>
+            </tr>
+            <tr>
+                <th>课业成绩</th>
+                <td>
+                    <input type="number" min="0" max="100" name="score" value="{{ sc.score }}" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" />
+                </td>
+            </tr>
+        </table>
+    </form>
 </body>
 </html>

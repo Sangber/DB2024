@@ -5,23 +5,23 @@
     <title>选课清单</title>
 </head>
 <body>
-<a href="../">返回</a>
-<form action="../sc/" style="margin: 10px 0">
-    <input name="sname" placeholder="请输入姓名" value="{{ sname }}" style="margin-right: 10px"/>
-    <input name="cname" placeholder="请输入课程名称" value="{{ cname }}" style="margin-right: 10px"/>
-    <button type="submit">查询</button>
-</form>
-<a href="../sc/add/">新增选课信息</a>
-<table border="1px" width="100%" style="border-collapse: collapse;">
-    <tr>
-        <th>学号</th>
-        <th>姓名</th>
-        <th>课程代码</th>
-        <th>课程名称</th>
-        <th>课业成绩</th>
-        <th>操作</th>
-    </tr>
-    {% for sc in scs %}
+    <a href="../">返回</a>
+    <form action="../sc/" style="margin: 10px 0">
+        <input name="sname" placeholder="请输入姓名" value="{{ sname }}" style="margin-right: 10px" />
+        <input name="cname" placeholder="请输入课程名称" value="{{ cname }}" style="margin-right: 10px" />
+        <button type="submit">查询</button>
+    </form>
+    <a href="../sc/add/">新增选课信息</a>
+    <table border="1px" width="100%" style="border-collapse: collapse;">
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>课程代码</th>
+            <th>课程名称</th>
+            <th>课业成绩</th>
+            <th>操作</th>
+        </tr>
+        {% for sc in scs %}
         <tr>
             <td align="center">{{ sc.sid }} </td>
             <td align="center">{{ sc.sname }} </td>
@@ -33,12 +33,12 @@
                 <a href="../sc/delete/?sid={{ sc.sid }}&cid={{ sc.cid }}" onclick="return confirmDelete()">删除</a>
             </td>
         </tr>
-    {% endfor %}
-</table>
-<script>
-    function confirmDelete() {
-        return confirm("是否确认删除？")
-    }
-</script>
+        {% endfor %}
+    </table>
+    <script>
+        function confirmDelete() {
+                return confirm("是否确认删除？")
+            }
+    </script>
 </body>
 </html>
