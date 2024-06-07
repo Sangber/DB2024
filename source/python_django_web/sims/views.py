@@ -3,7 +3,26 @@ import random
 from django.shortcuts import render, redirect
 
 # Create your views here.
+conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+
 def index(request):
+    if not hasattr(index, 'has_run'):
+        print('First try.')
+        fig_path=[
+            "./templates/figure/cs.png",
+            "./templates/figure/math.png",
+            "./templates/figure/physics.png",
+            "./templates/figure/management.png",
+            "./templates/figure/chemistry.png",
+            "./templates/figure/space.png"
+            ]
+        with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
+            for i in range(0, len(fig_path)):
+                fin = open(fig_path[i], 'rb')
+                cursor.execute("UPDATE major SET logo = %s WHERE mid=%s", [fin.read(), 'M00%d'%(i+1)])
+                fin.close()
+                conn.commit()
+        index.has_run = True
     return render(request, 'index.html')
 
 def passed(request):
@@ -34,8 +53,7 @@ def major_index(request):
     if mname.strip() != '':
         sql = sql + " and mname = '" + mname + "'"
 
-    # print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    print(sql)
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         majors = cursor.fetchall()
@@ -44,7 +62,7 @@ def major_index(request):
 def major_edit(request):
     if request.method == 'GET':
         mid = request.GET.get('mid', '')
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT mid, mname FROM major WHERE mid =%s", [mid])
             major = cursor.fetchone()
@@ -54,7 +72,6 @@ def major_edit(request):
         mname   = request.POST.get('mname', '')
         if len(mname) > 100:
             return redirect('/sims/failed/?path=%s' % ('major_'))
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE major set mname=%s WHERE mid =%s", [mname, mid])
             conn.commit()
@@ -72,8 +89,7 @@ def student_index(request):
     if sname.strip() != '':
         sql = sql + " and sname = '" + sname + "'"
 
-    # print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+    print(sql)
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         students = cursor.fetchall()
@@ -83,7 +99,7 @@ def student_index(request):
 
 def student_add(request):
     if request.method == 'GET':
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT * FROM major")
             options = cursor.fetchall()
@@ -96,7 +112,6 @@ def student_add(request):
         major_id    = request.POST.get('major_id', '')
         if len(sid) > 8 or len(sname) > 100:
             return redirect('/sims/failed/?path=%s' % ('student_'))
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("CALL student_add(%s, %s, %s, %s, %s, @flag)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
@@ -111,7 +126,7 @@ def student_add(request):
 def student_edit(request):
     if request.method == 'GET':
         sid = request.GET.get('sid', '')
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT sid, sname, gender, birth_date, major_id FROM student WHERE sid =%s", [sid])
             student = cursor.fetchone()
@@ -128,7 +143,6 @@ def student_edit(request):
         major_id    = request.POST.get('major_id', '')
         if len(sname) > 100:
             return redirect('/sims/failed/?path=%s' % ('student_'))
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE student as s\
                            SET s.sname = %s, s.gender = %s, s.birth_date = %s, s.major_id = %s\
@@ -138,7 +152,6 @@ def student_edit(request):
 
 def student_delete(request):
     sid = request.GET.get('sid', '')
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute("DELETE FROM student WHERE student.sid = %s", [sid])
         conn.commit()
@@ -157,7 +170,6 @@ def course_index(request):
         sql = sql + " and cname = '" + cname + "'"
 
     print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         courses = cursor.fetchall()
@@ -174,7 +186,6 @@ def award_index(request):
         sql = sql + " and aname = '" + aname + "'"
 
     print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         awards = cursor.fetchall()
@@ -191,7 +202,6 @@ def sa_index(request):
         sql = sql + " and aname = '" + aname + "'"
 
     print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         sas = cursor.fetchall()
@@ -201,7 +211,7 @@ def sa_index(request):
 
 def sa_add(request):
     if request.method == 'GET':
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT aid, aname FROM award")
             awards = cursor.fetchall()
@@ -212,7 +222,6 @@ def sa_add(request):
         student_id  = request.POST.get('student_id', '')
         award_id    = request.POST.get('award_id', '')
         award_time  = request.POST.get('award_time', '')
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("CALL sa_add(%s, %s, %s, @flag)", [student_id, award_id, award_time])
             conn.commit()
@@ -227,7 +236,6 @@ def sa_add(request):
 def sa_delete(request):
     sid = request.GET.get('sid', '')
     aid = request.GET.get('aid', '')
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute("DELETE FROM sa WHERE student_id=%s and award_id=%s", [sid, aid])
         conn.commit()
@@ -244,7 +252,6 @@ def sc_index(request):
         sql = sql + " and cname = '" + cname + "'"
 
     print(sql)
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         scs = cursor.fetchall()
@@ -252,7 +259,7 @@ def sc_index(request):
 
 def sc_add(request):
     if request.method == 'GET':
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT cid, cname FROM course")
             courses = cursor.fetchall()
@@ -263,7 +270,6 @@ def sc_add(request):
         student_id  = request.POST.get('student_id', '')
         course_id   = request.POST.get('course_id', '')
         score = random.randint(50, 90)
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("CALL sc_add(%s, %s, %s, @flag)", [student_id, course_id, score])
             conn.commit()
@@ -279,7 +285,7 @@ def sc_edit(request):
     if request.method == 'GET':
         sid  = request.GET.get('sid', '')
         cid  = request.GET.get('cid', '')
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
+        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT sid, sname, cid, cname, score FROM student, course, sc WHERE sid=student_id and cid=course_id and sid=%s and cid=%s", [sid, cid])
             sc = cursor.fetchone()
@@ -288,7 +294,6 @@ def sc_edit(request):
         student_id  = request.POST.get('student_id', '')
         course_id   = request.POST.get('course_id', '')
         score       = request.POST.get('score', '')
-        conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE sc set score=%s WHERE student_id=%s and course_id=%s", [score, student_id, course_id])
             conn.commit()
@@ -297,7 +302,6 @@ def sc_edit(request):
 def sc_delete(request):
     sid = request.GET.get('sid', '')
     cid = request.GET.get('cid', '')
-    conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
     with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute("DELETE FROM sc WHERE student_id=%s and course_id=%s", [sid, cid])
         conn.commit()
