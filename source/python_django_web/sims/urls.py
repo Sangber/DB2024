@@ -8,6 +8,7 @@ urlpatterns = [
     path('failed/', views.failed),
     path('major/', views.major_index),
     path('major/edit/', views.major_edit),
+    path('major/upload/', views.major_upload),
     path('student/', views.student_index),
     path('student/add/', views.student_add),
     path('student/edit/', views.student_edit),

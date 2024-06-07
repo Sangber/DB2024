@@ -2,6 +2,7 @@ import MySQLdb
 import random
 import base64
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 # Create your views here.
 conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
@@ -50,24 +51,35 @@ def major_edit(request):
     if request.method == 'GET':
         mid = request.GET.get('mid', '')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT mid, mname, logo FROM major WHERE mid =%s", [mid])
+            cursor.execute("SELECT mid, mname FROM major WHERE mid=%s", [mid])
             major = cursor.fetchone()
-        if major['logo'] != None:
-            major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
-        # print(type(major['logo']), major['logo'])
         return render(request, 'major/edit.html', {'major': major})
     else:
         mid     = request.POST.get('mid', '')
         mname   = request.POST.get('mname', '')
-        logo    = request.POST.get('logo', '')
         if len(mname) > 100:
             return redirect('/sims/failed/?path=%s' % ('major_'))
-        # print(type(logo), logo)
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            if logo != '':
-                cursor.execute("UPDATE major SET mname=%s, logo=%s WHERE mid =%s", [mname, logo, mid])
+            cursor.execute("UPDATE major SET mname=%s WHERE mid=%s", [mname, mid])
+            conn.commit()
+        return redirect('/sims/passed/?path=%s' % ('major_'))
+
+def major_upload(request):
+    if request.method == 'GET':
+        mid = request.GET.get('mid', '')
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            cursor.execute("SELECT mid, mname FROM major WHERE mid=%s", [mid])
+            major = cursor.fetchone()
+        return render(request, 'major/upload.html', {'major': major})
+    else:
+        mid     = request.POST.get('mid', '')
+        logo    = request.FILES.get('logo', None)
+        if logo: logo = logo.read()
+        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            if logo != None:
+                cursor.execute("UPDATE major SET logo=%s WHERE mid=%s", [logo, mid])
             else:
-                cursor.execute("UPDATE major SET mname=%s, logo=NULL WHERE mid =%s", [mname, mid])
+                cursor.execute("UPDATE major SET logo=NULL WHERE mid=%s", [mid])
             conn.commit()
         return redirect('/sims/passed/?path=%s' % ('major_'))
 
