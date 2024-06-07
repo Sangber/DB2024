@@ -1,6 +1,5 @@
 import MySQLdb
 import random
-from django.db import IntegrityError
 from django.shortcuts import render, redirect
 
 # Create your views here.
