@@ -7,18 +7,6 @@ from django.shortcuts import render, redirect
 conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
 
 def index(request):
-    if not hasattr(index, 'has_run'):
-        print('First try.')
-        with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT mid FROM major")
-            majors = cursor.fetchall()
-            print(majors)
-            for major in majors:
-                fin = open('./figure/%s.png'%(major['mid']), 'rb')
-                cursor.execute("UPDATE major SET logo = %s WHERE mid=%s", [fin.read(), major['mid']])
-                fin.close()
-                conn.commit()
-        index.has_run = True
     return render(request, 'index.html')
 
 def passed(request):
@@ -54,24 +42,33 @@ def major_index(request):
         cursor.execute(sql)
         majors = cursor.fetchall()
     for major in majors:
-        major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
+        if major['logo'] != None:
+            major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
     return render(request, 'major/index.html', {'majors': majors})
 
 def major_edit(request):
     if request.method == 'GET':
         mid = request.GET.get('mid', '')
-        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("SELECT mid, mname FROM major WHERE mid =%s", [mid])
+            cursor.execute("SELECT mid, mname, logo FROM major WHERE mid =%s", [mid])
             major = cursor.fetchone()
+        if major['logo'] != None:
+            major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
+        else:
+            major['logo'] = 0
         return render(request, 'major/edit.html', {'major': major})
     else:
         mid     = request.POST.get('mid', '')
         mname   = request.POST.get('mname', '')
+        logo    = request.POST.get('logo', '')
         if len(mname) > 100:
             return redirect('/sims/failed/?path=%s' % ('major_'))
+        print(type(logo), logo)
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("UPDATE major set mname=%s WHERE mid =%s", [mname, mid])
+            if logo == 'NULL':
+                cursor.execute("UPDATE major SET mname=%s, logo=NULL WHERE mid =%s", [mname, mid])
+            else:
+                cursor.execute("UPDATE major SET mname=%s, logo=%s WHERE mid =%s", [mname, logo, mid])
             conn.commit()
         return redirect('/sims/passed/?path=%s' % ('major_'))
 
@@ -293,7 +290,7 @@ def sc_edit(request):
         course_id   = request.POST.get('course_id', '')
         score       = request.POST.get('score', '')
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            cursor.execute("UPDATE sc set score=%s WHERE student_id=%s and course_id=%s", [score, student_id, course_id])
+            cursor.execute("UPDATE sc SET score=%s WHERE student_id=%s and course_id=%s", [score, student_id, course_id])
             conn.commit()
         return redirect('/sims/passed/?path=%s' % ('sc_'))
 

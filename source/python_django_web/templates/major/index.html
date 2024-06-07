@@ -21,7 +21,9 @@
         {% for major in majors %}
         <tr>
             <td align="center">
+                {% if major.logo != None %}
                 <img src="data:image/png;base64,{{ major.logo }}" width="100", height="100">
+                {% endif %}
             </td>
             <td align="center">{{ major.mid }} </td>
             <td align="center">{{ major.mname }} </td>
