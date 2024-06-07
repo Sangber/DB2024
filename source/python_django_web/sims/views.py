@@ -54,8 +54,7 @@ def major_edit(request):
             major = cursor.fetchone()
         if major['logo'] != None:
             major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
-        else:
-            major['logo'] = 0
+        # print(type(major['logo']), major['logo'])
         return render(request, 'major/edit.html', {'major': major})
     else:
         mid     = request.POST.get('mid', '')
@@ -63,12 +62,12 @@ def major_edit(request):
         logo    = request.POST.get('logo', '')
         if len(mname) > 100:
             return redirect('/sims/failed/?path=%s' % ('major_'))
-        print(type(logo), logo)
+        # print(type(logo), logo)
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            if logo == 'NULL':
-                cursor.execute("UPDATE major SET mname=%s, logo=NULL WHERE mid =%s", [mname, mid])
-            else:
+            if logo != '':
                 cursor.execute("UPDATE major SET mname=%s, logo=%s WHERE mid =%s", [mname, logo, mid])
+            else:
+                cursor.execute("UPDATE major SET mname=%s, logo=NULL WHERE mid =%s", [mname, mid])
             conn.commit()
         return redirect('/sims/passed/?path=%s' % ('major_'))
 
