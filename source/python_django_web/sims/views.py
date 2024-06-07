@@ -9,18 +9,13 @@ conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="
 def index(request):
     if not hasattr(index, 'has_run'):
         print('First try.')
-        fig_path=[
-            "./templates/figure/cs.png",
-            "./templates/figure/math.png",
-            "./templates/figure/physics.png",
-            "./templates/figure/management.png",
-            "./templates/figure/chemistry.png",
-            "./templates/figure/space.png"
-            ]
         with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
-            for i in range(0, len(fig_path)):
-                fin = open(fig_path[i], 'rb')
-                cursor.execute("UPDATE major SET logo = %s WHERE mid=%s", [fin.read(), 'M00%d'%(i+1)])
+            cursor.execute("SELECT mid FROM major")
+            majors = cursor.fetchall()
+            print(majors)
+            for major in majors:
+                fin = open('./templates/figure/%s.png'%(major['mid']), 'rb')
+                cursor.execute("UPDATE major SET logo = %s WHERE mid=%s", [fin.read(), major['mid']])
                 fin.close()
                 conn.commit()
         index.has_run = True
