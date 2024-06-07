@@ -1,5 +1,6 @@
 import MySQLdb
 import random
+import base64
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -47,7 +48,7 @@ def major_index(request):
     mid         = request.GET.get('mid', '')
     mname       = request.GET.get('mname', '')
 
-    sql =  "SELECT mid, mname FROM major WHERE 1=1 "
+    sql =  "SELECT mid, mname, logo FROM major WHERE 1=1 "
     if mid.strip() != '':
         sql = sql + " and mid = '" + mid + "'"
     if mname.strip() != '':
@@ -57,6 +58,8 @@ def major_index(request):
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         majors = cursor.fetchall()
+    for major in majors:
+        major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
     return render(request, 'major/index.html', {'majors': majors})
 
 def major_edit(request):

@@ -13,12 +13,16 @@
     </form>
     <table border="1px" width="100%" style="border-collapse: collapse;">
         <tr>
+            <th>专业概念图</th>
             <th>专业代码</th>
             <th>专业名称</th>
             <th>操作</th>
         </tr>
         {% for major in majors %}
         <tr>
+            <td align="center">
+                <img src="data:image/png;base64,{{ major.logo }}">
+            </td>
             <td align="center">{{ major.mid }} </td>
             <td align="center">{{ major.mname }} </td>
             <td align="center">
