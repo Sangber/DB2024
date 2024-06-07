@@ -14,7 +14,7 @@ def index(request):
             majors = cursor.fetchall()
             print(majors)
             for major in majors:
-                fin = open('./templates/figure/%s.png'%(major['mid']), 'rb')
+                fin = open('./figure/%s.png'%(major['mid']), 'rb')
                 cursor.execute("UPDATE major SET logo = %s WHERE mid=%s", [fin.read(), major['mid']])
                 fin.close()
                 conn.commit()
