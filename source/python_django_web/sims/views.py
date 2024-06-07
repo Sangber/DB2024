@@ -2,7 +2,6 @@ import MySQLdb
 import random
 import base64
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 
 # Create your views here.
 conn = MySQLdb.connect(host="localhost", user="root", passwd="mysql030520", db="lab02", charset='utf8')
