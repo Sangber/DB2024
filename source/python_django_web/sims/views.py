@@ -73,9 +73,9 @@ def major_upload(request):
     else:
         mid     = request.POST.get('mid', '')
         logo    = request.FILES.get('logo', None) # 从FILES中获取图片信息
-        if logo: logo = logo.read()
-        with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
-            if logo != None:
+        if logo:
+            logo = logo.read()
+            with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
                 cursor.execute("UPDATE major SET logo=%s WHERE mid=%s", [logo, mid])
                 conn.commit()
         return redirect('/sims/passed/?path=%s' % ('major_'))
