@@ -20,5 +20,5 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('sims/', include('sims.urls'))
+    path('sims/', include('sims.urls')) # 添加根 URL
 ]
