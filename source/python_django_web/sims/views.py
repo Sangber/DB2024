@@ -83,23 +83,28 @@ def major_upload(request):
         return redirect('/sims/passed/?path=%s' % ('major_'))
 
 def student_index(request):
+    # 从URL信息中获取查询的参数
     sid         = request.GET.get('sid', '')
     sname       = request.GET.get('sname', '')
-
+    # 从数据库中获取需求信息的sql语句，包括调用函数的过程
     sql =  "SELECT sid, sname, gender, birth_date, major.mname, s_status, \
         gpa(sid) as s_gpa, major_gpa(sid) as s_major_gpa \
             FROM student, major WHERE student.major_id = major.mid "
+    # 如有查询需求，则在sql语句的WHERE条件后追加范围
     if sid.strip() != '':
         sql = sql + " and sid = '" + sid + "'"
     if sname.strip() != '':
         sql = sql + " and sname = '" + sname + "'"
 
-    print(sql)
+    print(sql) # 控制台打印，可用于调试
+    # 建立连接，执行sql操作，将全部结果捕获到dict变量中，用于后续向前端传递
     with conn.cursor(cursorclass = MySQLdb.cursors.DictCursor) as cursor:
         cursor.execute(sql)
         students = cursor.fetchall()
+    # 将date类型数据统一修改为YYYY-MM-DD格式，与HTML中date类input默认格式一致
     for student in students:
         student['birth_date'] = student['birth_date'].strftime('%Y-%m-%d')
+    # 向前端传递request和刚刚捕获的students参数，打开student/index.html页面
     return render(request, 'student/index.html', {'students': students})
 
 def student_add(request):
@@ -131,7 +136,6 @@ def student_add(request):
 def student_edit(request):
     if request.method == 'GET':
         sid = request.GET.get('sid', '')
-        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT sid, sname, gender, birth_date, major_id FROM student WHERE sid =%s", [sid])
             student = cursor.fetchone()
@@ -216,7 +220,6 @@ def sa_index(request):
 
 def sa_add(request):
     if request.method == 'GET':
-        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT aid, aname FROM award")
             awards = cursor.fetchall()
@@ -264,7 +267,6 @@ def sc_index(request):
 
 def sc_add(request):
     if request.method == 'GET':
-        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT cid, cname FROM course")
             courses = cursor.fetchall()
@@ -290,7 +292,6 @@ def sc_edit(request):
     if request.method == 'GET':
         sid  = request.GET.get('sid', '')
         cid  = request.GET.get('cid', '')
-        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT sid, sname, cid, cname, score FROM student, course, sc WHERE sid=student_id and cid=course_id and sid=%s and cid=%s", [sid, cid])
             sc = cursor.fetchone()
