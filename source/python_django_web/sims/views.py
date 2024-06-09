@@ -74,7 +74,7 @@ def major_upload(request):
         mid     = request.POST.get('mid', '')
         logo    = request.FILES.get('logo', None) # 从FILES中获取图片信息
         if logo:
-            logo = logo.read()
+            logo = logo.read() # 若不为空，则从中提取图片编码信息，并更新logo
             with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
                 cursor.execute("UPDATE major SET logo=%s WHERE mid=%s", [logo, mid])
                 conn.commit()
