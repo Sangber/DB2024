@@ -37,10 +37,7 @@ BEGIN
     DECLARE c_count INT DEFAULT 0;
     SELECT COUNT(*) INTO c_count FROM sc
     WHERE student_id = OLD.student_id and score < 60;
-    IF c_count >= 3 THEN
-        UPDATE student SET s_status = '不合格'
-        WHERE sid = OLD.student_id;
-    ELSE
+    IF c_count < 3 THEN
         UPDATE student SET s_status = '合格'
         WHERE sid = OLD.student_id;
     END IF;
