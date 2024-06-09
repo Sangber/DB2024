@@ -150,7 +150,7 @@ def student_edit(request):
         gender      = request.POST.get('gender', '')
         birth_date  = request.POST.get('birth_date', '')
         major_id    = request.POST.get('major_id', '')
-        if len(sname) > 100:
+        if len(sname) > 100 or len(sname) <= 0:
             return redirect('/sims/failed/?path=%s' % ('student_'))
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE student as s\
