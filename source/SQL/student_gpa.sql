@@ -11,7 +11,7 @@ BEGIN
     SELECT SUM(score) INTO score_total FROM sc WHERE sc.student_id=sid;
     SELECT COUNT(score) INTO course_count FROM sc WHERE sc.student_id=sid;
     SET gpa = score_total / course_count;
-    RETURN ROUND(gpa, 2);
+    RETURN ROUND(gpa, 2); -- 保留两位小数
 END //
 
 CREATE FUNCTION major_gpa(sid CHAR(8))
@@ -28,6 +28,6 @@ BEGIN
     FROM sc, course c, student s
     WHERE sc.student_id=sid and sc.course_id=c.cid and c.major_id=s.major_id and s.sid = sid;
     SET major_gpa = major_score_total / major_course_count;
-    RETURN ROUND(major_gpa, 2);
+    RETURN ROUND(major_gpa, 2); -- 保留两位小数
 END //
 DELIMITER ;
