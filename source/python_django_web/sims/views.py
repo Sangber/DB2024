@@ -72,14 +72,12 @@ def major_upload(request):
         return render(request, 'major/upload.html', {'major': major})
     else:
         mid     = request.POST.get('mid', '')
-        logo    = request.FILES.get('logo', None)
+        logo    = request.FILES.get('logo', None) # 从FILES中获取图片信息
         if logo: logo = logo.read()
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             if logo != None:
                 cursor.execute("UPDATE major SET logo=%s WHERE mid=%s", [logo, mid])
-            else:
-                cursor.execute("UPDATE major SET logo=NULL WHERE mid=%s", [mid])
-            conn.commit()
+                conn.commit()
         return redirect('/sims/passed/?path=%s' % ('major_'))
 
 def student_index(request):
