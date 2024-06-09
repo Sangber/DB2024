@@ -56,7 +56,7 @@ def major_edit(request):
     else:
         mid     = request.POST.get('mid', '')
         mname   = request.POST.get('mname', '')
-        if len(mname) > 100:
+        if len(mname) > 100 or len(mname) <= 0:
             return redirect('/sims/failed/?path=%s' % ('major_'))
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("UPDATE major SET mname=%s WHERE mid=%s", [mname, mid])
