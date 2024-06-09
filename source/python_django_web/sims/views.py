@@ -104,7 +104,6 @@ def student_index(request):
 
 def student_add(request):
     if request.method == 'GET':
-        
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("SELECT * FROM major")
             options = cursor.fetchall()
@@ -120,9 +119,10 @@ def student_add(request):
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
             cursor.execute("CALL student_add(%s, %s, %s, %s, %s, @flag)", [sid, sname, gender, birth_date, major_id])
             conn.commit()
-            cursor.execute("SELECT @flag")
+            cursor.execute("SELECT @flag") # 捕获异常句柄
             flag = cursor.fetchone()
         # print(flag)
+        # 判断操作成功/失败
         if flag['@flag'] == 0:
             return redirect('/sims/passed/?path=%s' % ('student_'))
         else:
