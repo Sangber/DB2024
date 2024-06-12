@@ -276,11 +276,13 @@ def sc_add(request):
         course_id   = request.POST.get('course_id', '')
         score = random.randint(50, 90)
         with conn.cursor(cursorclass=MySQLdb.cursors.DictCursor) as cursor:
+            # cursor.execute("set @flag=0")
+            # conn.commit()
             cursor.execute("CALL sc_add(%s, %s, %s, @flag)", [student_id, course_id, score])
             conn.commit()
             cursor.execute("SELECT @flag")
             flag = cursor.fetchone()
-        # print(flag)
+        print(flag)
         if flag['@flag'] == 0:
             return redirect('/sims/passed/?path=%s' % ('sc_'))
         else:
