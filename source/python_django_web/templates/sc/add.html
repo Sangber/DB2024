@@ -22,7 +22,7 @@
                 <td>
                     <select name="student_id">
                         {% for student in students %}
-                        <option value="{{ student.sid }}">{{ student.sname }}</option>
+                        <option value="{{ student.sid }}">{{ student.sid }} {{ student.sname }}</option>
                         {% endfor %}
                     </select>
                 </td>
