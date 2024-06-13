@@ -43,7 +43,7 @@ def major_index(request):
         majors = cursor.fetchall()
     for major in majors:
         if major['logo'] != None:
-            major['logo'] = base64.b64encode(major['logo']).decode('utf-8')
+            major['logo'] = base64.b64encode(major['logo']).decode('utf-8') # 编码后再传入前端
     return render(request, 'major/index.html', {'majors': majors})
 
 def major_edit(request):
