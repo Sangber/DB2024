@@ -8,8 +8,10 @@
     <form method="post" action="../failed/">
         {% csrf_token %}
         <input type="hidden" name="path" value="{{ path }}">
-        操作失败！
-        <input type="submit" value="确定" />
+        <div align="center">
+            操作失败！
+            <input type="submit" value="确定" />
+        </div>
     </form>
 </body>
 </html>
